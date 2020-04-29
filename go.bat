@@ -1,4 +1,4 @@
-cd C:\ahl\des\wk3\remun
+cd C:\ahl\des\remun
 cls
 call deploy
 
