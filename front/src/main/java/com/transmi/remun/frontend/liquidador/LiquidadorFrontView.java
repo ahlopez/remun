@@ -62,8 +62,9 @@ public class LiquidadorFrontView extends PolymerTemplate<TemplateModel>
     this.presenter      = presenter;
     this.contractEditor = contractEditor;
     searchBar.setActionText("Administracion");
-    searchBar.setCheckboxText("Diccionario");
-    searchBar.setPlaceHolder("Contratos");
+    searchBar.setActionText("Diccionario");
+    searchBar.setActionText("Fórmulación ");
+    searchBar.setPlaceHolder("Liquidación");
     searchBar.setCheckboxText("Buscar");
     grid.setSelectionMode(Grid.SelectionMode.NONE);
     grid.addColumn(
@@ -110,19 +111,13 @@ public class LiquidadorFrontView extends PolymerTemplate<TemplateModel>
   @Override
   public void write(Contract entity) throws ValidationException { contractEditor.write(entity); }
 
-  public Stream<HasValue<?, ?>> validate() {
-    return contractEditor.validate();
-  }
+  public Stream<HasValue<?, ?>> validate() { return contractEditor.validate(); }
 
   SearchBar getSearchBar() { return searchBar; }
 
-  ContractEditor getOpenedContractEditor() {
-    return contractEditor;
-  }
+  ContractEditor getOpenedContractEditor() { return contractEditor; }
 
-  ContractDetails getOpenedContractDetails() {
-     return contractDetails;
-  }
+  ContractDetails getOpenedContractDetails() { return contractDetails; }
 
   Grid<Contract> getGrid() { return grid; }
 

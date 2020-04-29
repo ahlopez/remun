@@ -2,6 +2,7 @@ package com.transmi.remun.frontend.main;
 
 import static com.transmi.remun.service.util.FrontConst.TITLE_ADMINISTRACION;
 import static com.transmi.remun.service.util.FrontConst.TITLE_DICT;
+import static com.transmi.remun.service.util.FrontConst.TITLE_FORMULACION;
 import static com.transmi.remun.service.util.FrontConst.TITLE_LIQUIDACION;
 import static com.transmi.remun.service.util.FrontConst.TITLE_LOGOUT;
 
@@ -49,6 +50,7 @@ public class MainView extends AppLayout
 
   public MainView()
   {
+
     confirmDialog.setCancelable(true);
     confirmDialog.setConfirmButtonTheme("raised tertiary error");
     confirmDialog.setCancelButtonTheme("raised tertiary");
@@ -109,7 +111,8 @@ public class MainView extends AppLayout
       tabs.add(createTab(VaadinIcon.USER, TITLE_ADMINISTRACION, UsersView.class));
 
     tabs.add(createTab(VaadinIcon.EDIT, TITLE_DICT, DictView.class));
-    tabs.add(createTab(VaadinIcon.CLOCK, TITLE_LIQUIDACION, LiquidadorFrontView.class));
+    tabs.add(createTab(VaadinIcon.ABACUS, TITLE_FORMULACION, FormulacionView.class));
+    tabs.add(createTab(VaadinIcon.DOLLAR, TITLE_LIQUIDACION, LiquidadorFrontView.class));
     final String contextPath = VaadinServlet.getCurrent().getServletContext().getContextPath();
     final Tab    logoutTab   = createTab(createLogoutLink(contextPath));
     tabs.add(logoutTab);

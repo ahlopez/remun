@@ -21,6 +21,8 @@ public class FrontConst
 
   public static final String PAGE_DICT = "dict";
 
+  public static final String PAGE_FORMULACION = "formulacion";
+
   public static final String PAGE_PRODUCTS = "products";
 
   public static final String TITLE_LIQUIDADOR_FRONT = "Liquidadorfront";
@@ -32,6 +34,8 @@ public class FrontConst
   public static final String TITLE_PRODUCTS = "Products";
 
   public static final String TITLE_DICT = "Diccionario";
+
+  public static final String TITLE_FORMULACION = "Formulación";
 
   public static final String TITLE_LIQUIDACION = "Liquidación";
 
@@ -50,6 +54,6 @@ public class FrontConst
   public static final String VIEWPORT = "width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes, viewport-fit=cover";
 
   // Mutable for testing.
-  public static int NOTIFICATION_DURATION = 4000;
+  public static int NOTIFICATION_DURATION = 8000;
 
 }// RemunConst
