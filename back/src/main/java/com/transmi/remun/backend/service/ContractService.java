@@ -18,7 +18,7 @@ import com.transmi.remun.backend.data.entity.User;
 import com.transmi.remun.backend.data.repositories.ContractRepository;
 
 @Service
-public class ContractService implements CrudService<Contract>
+public class ContractService implements FilterableCrudService<Contract>
 {
 
   private final ContractRepository contractRepository;
@@ -63,6 +63,7 @@ public class ContractService implements CrudService<Contract>
   @Override
   public JpaRepository<Contract, Long> getRepository() { return contractRepository; }
 
+  @Override
   public Page<Contract> findAnyMatching(Optional<String> optionalFilter, Pageable pageable) {
 
     return optionalFilter.isPresent() && !optionalFilter.get().isEmpty() ?
@@ -70,6 +71,18 @@ public class ContractService implements CrudService<Contract>
         contractRepository.findAll(pageable);
 
   }// findAnyMatching
+
+  @Override
+  public long countAnyMatching(Optional<String> filter) {
+    if (filter.isPresent())
+    {
+      String repositoryFilter = "%" + filter.get() + "%";
+      return contractRepository.countByNameContainingIgnoreCase(repositoryFilter);
+    }
+
+    return count();
+
+  }// countAnyMatching
 
   @Override
   @Transactional

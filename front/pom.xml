@@ -1,121 +1,151 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
    http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-   <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-   <parent>
-      <groupId>com.transmi.remun</groupId>
-      <artifactId>remun</artifactId>
-      <version>1.0-SNAPSHOT</version>
-   </parent>
+	<parent>
+		<groupId>com.transmi.remun</groupId>
+		<artifactId>remun</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
 
-   <artifactId>front</artifactId>
-   <name>Frontend</name>
-   <description>Frontend del sistema de remuneracion de agentes
-   </description>
+	<artifactId>front</artifactId>
+	<name>Frontend</name>
+	<description>Frontend del sistema de remuneracion de agente
+	</description>
 
-   <dependencyManagement>
-      <dependencies>
-         <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-bom</artifactId>
-            <version>${vaadin.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-         </dependency>
-      </dependencies>
-   </dependencyManagement>
+	<pluginRepositories>
 
+		<!-- Main Maven repository -->
+		<pluginRepository>
+			<id>central</id>
+			<url>https://repo.maven.apache.org/maven2</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
 
-   <dependencies>
-
-      <dependency>
-         <groupId>com.transmi.remun</groupId>
-         <artifactId>remun</artifactId>
-         <type>pom</type>
-         <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-         <groupId>com.transmi.remun</groupId>
-         <artifactId>service</artifactId>
-         <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-         <groupId>com.transmi.remun</groupId>
-         <artifactId>back</artifactId>
-         <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-         <groupId>com.vaadin</groupId>
-         <artifactId>vaadin-spring-boot-starter</artifactId>
-         <version>${vaadin.version}</version>
-         <exclusions>
-            <!-- Excluding so that webjars are not included. -->
-            <exclusion>
-               <groupId>com.vaadin</groupId>
-               <artifactId>vaadin-core</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-
-      <!-- https://mvnrepository.com/artifact/org.vaadin.artur/spring-data-provider -->
-      <dependency>
-         <groupId>org.vaadin.artur</groupId>
-         <artifactId>spring-data-provider</artifactId>
-         <version>${spring.data.provider.version}</version>
-      </dependency>
-
-      <!-- https://mvnrepository.com/artifact/com.vaadin/flow-server -->
-      <dependency>
-         <groupId>com.vaadin</groupId>
-         <artifactId>flow-server</artifactId>
-         <version>${flow.version}</version>
-      </dependency>
+	</pluginRepositories>
 
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-bom</artifactId>
+				<version>${vaadin.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
-      <dependency>
-         <groupId>com.vaadin</groupId>
-         <!-- Replace artifactId with vaadin-core to use only free components -->
-         <artifactId>vaadin</artifactId>
-         <version>${vaadin.version}</version>
-         <exclusions>
-            <!-- Webjars are only needed when running in Vaadin 13 compatibility
-               mode -->
-            <exclusion>
-               <groupId>com.vaadin.webjar</groupId>
-               <artifactId>*</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>org.webjars.bowergithub.insites</groupId>
-               <artifactId>*</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>org.webjars.bowergithub.polymer</groupId>
-               <artifactId>*</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>org.webjars.bowergithub.polymerelements</groupId>
-               <artifactId>*</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>org.webjars.bowergithub.vaadin</groupId>
-               <artifactId>*</artifactId>
-            </exclusion>
-            <exclusion>
-               <groupId>org.webjars.bowergithub.webcomponents</groupId>
-               <artifactId>*</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
 
-      <!-- <dependency> <groupId>com.vaadin</groupId> <artifactId>vaadin-testbench</artifactId>
-         <version>${vaadin.version}</version> <scope>test</scope> </dependency> -->
-   </dependencies>
+	<dependencies>
+
+		<dependency>
+			<groupId>com.transmi.remun</groupId>
+			<artifactId>remun</artifactId>
+			<type>pom</type>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.transmi.remun</groupId>
+			<artifactId>service</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.transmi.remun</groupId>
+			<artifactId>back</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-spring-boot-starter</artifactId>
+			<version>${vaadin.version}</version>
+			<exclusions>
+				<!-- Excluding so that webjars are not included. -->
+				<exclusion>
+					<groupId>com.vaadin</groupId>
+					<artifactId>vaadin-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.vaadin.artur/spring-data-provider 
+		<dependency>
+			<groupId>org.vaadin.artur</groupId>
+			<artifactId>spring-data-provider</artifactId>
+			<version>${spring.data.provider.version}</version>
+		</dependency>
+-->
+		<!-- https://mvnrepository.com/artifact/com.vaadin/flow-server -->
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>flow-server</artifactId>
+			<version>${flow.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<!-- Replace artifactId with vaadin-core to use only free components -->
+			<artifactId>vaadin</artifactId>
+			<version>${vaadin.version}</version>
+			<exclusions>
+				<!-- Webjars are only needed when running in Vaadin 13 compatibility 
+					mode -->
+				<exclusion>
+					<groupId>com.vaadin.webjar</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.webjars.bowergithub.insites</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.webjars.bowergithub.polymer</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.webjars.bowergithub.polymerelements</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.webjars.bowergithub.vaadin</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.webjars.bowergithub.webcomponents</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javax.servlet.api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager 
+		<dependency>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>webdrivermanager</artifactId>
+			<version>${webdrivermanager.version}</version>
+			<scope>test</scope>
+		</dependency>
+		-->
+
+
+		<!-- <dependency> <groupId>com.vaadin</groupId> <artifactId>vaadin-testbench</artifactId> 
+			<version>${vaadin.version}</version> <scope>test</scope> </dependency> -->
+	</dependencies>
 
 </project>

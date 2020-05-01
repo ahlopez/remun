@@ -6,19 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.transmi.remun.backend.data.entity.User;
-import com.transmi.remun.backend.service.UserService;
+import com.transmi.remun.backend.data.entity.Contract;
+import com.transmi.remun.backend.service.ContractService;
 import com.transmi.remun.frontend.crud.AbstractRemunCrudView;
 import com.transmi.remun.frontend.security.CurrentUser;
+import com.transmi.remun.service.util.ContractStatus;
 import com.transmi.remun.service.util.FrontConst;
 import com.transmi.remun.service.util.Role;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.crud.BinderCrudEditor;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.textfield.EmailField;
-import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.provider.DataProvider;
@@ -29,71 +29,68 @@ import com.vaadin.flow.router.Route;
 @Route(value = PAGE_DICT, layout = MainView.class)
 @PageTitle(FrontConst.TITLE_DICT)
 @Secured(Role.ADMIN)
-public class DictView extends AbstractRemunCrudView<User>
+public class DictView extends AbstractRemunCrudView<Contract>
 {
 
   @Autowired
-  public DictView(UserService service, CurrentUser currentUser, PasswordEncoder passwordEncoder)
-  { super(User.class, service, new Grid<>(), createForm(passwordEncoder), currentUser); }
+  public DictView(ContractService service, CurrentUser currentUser, PasswordEncoder passwordEncoder)
+  { super(
+      Contract.class,
+      service,
+      new Grid<>(),
+      createEditor(passwordEncoder),
+      currentUser
+  ); }
 
   @Override
-  public void setupGrid(Grid<User> grid) {
-    grid.addColumn(User::getEmail).setWidth("270px").setHeader("Email").setFlexGrow(5);
-    grid.addColumn(u-> u.getFirstName() + " " + u.getLastName()).setHeader("Nombre").setWidth("200px").setFlexGrow(5);
-    grid.addColumn(User::getRole).setHeader("Rol").setWidth("150px");
+  public void setupGrid(Grid<Contract> grid) {
+    grid.addColumn(Contract::getFase).setWidth("30px").setHeader("Fase").setFlexGrow(5);
+    grid.addColumn(Contract::getCode).setWidth("150px").setHeader("Código").setFlexGrow(5);
+    grid.addColumn(Contract::getName).setWidth("270px").setHeader("Nombre").setFlexGrow(5);
+    grid.addColumn(c-> c.getContractor().getFullName()).setWidth("200px").setHeader("Contratista").setFlexGrow(5);
+    grid.addColumn(Contract::getFromDate).setWidth("100px").setHeader("Desde").setFlexGrow(5);
+    grid.addColumn(Contract::getToDate).setWidth("100px").setHeader("Hasta").setFlexGrow(5);
+    grid.addColumn(Contract::isVigente).setHeader("Vigente").setWidth("200px").setFlexGrow(5);
   }
 
   @Override
   protected String getBasePage() { return PAGE_DICT; }
 
-  private static BinderCrudEditor<User> createForm(PasswordEncoder passwordEncoder) {
+  private static BinderCrudEditor<Contract> createEditor(PasswordEncoder passwordEncoder) {
 
     Notification.show("Saludos desde Diccionario!!");
 
-    EmailField email = new EmailField("Email (login)");
-    email.getElement().setAttribute("colspan", "2");
-    TextField     first    = new TextField("Nombre");
-    TextField     last     = new TextField("Apellido");
-    PasswordField password = new PasswordField("Password");
-    password.getElement().setAttribute("colspan", "2");
-    ComboBox<String> role = new ComboBox<>();
-    role.getElement().setAttribute("colspan", "2");
-    role.setLabel("Rol");
+    TextField        fase       = new TextField("Fase");
+    TextField        code       = new TextField("Código");
+    TextField        name       = new TextField("Nombre");
+    TextField        contractor = new TextField("Contratista");
+    DatePicker       fromDate   = new DatePicker("Desde");
+    DatePicker       toDate     = new DatePicker("Hasta");
+    ComboBox<String> status     = new ComboBox<>();
+    status.getElement().setAttribute("colspan", "2");
+    status.setLabel("Estado");
 
-    FormLayout form = new FormLayout(email, first, last, password, role);
+    FormLayout form = new FormLayout(fase, code, name, contractor, fromDate, toDate, status);
 
-    BeanValidationBinder<User> binder = new BeanValidationBinder<>(User.class);
+    BeanValidationBinder<Contract> binder = new BeanValidationBinder<>(Contract.class);
 
-    ListDataProvider<String> roleProvider = DataProvider.ofItems(Role.getAllRoles());
-    role.setItemLabelGenerator(
+    ListDataProvider<String> statusProvider = DataProvider.ofItems(ContractStatus.getAllStatus());
+    status.setItemLabelGenerator(
         s-> s != null ?
             s :
             ""
     );
-    role.setDataProvider(roleProvider);
+    status.setDataProvider(statusProvider);
 
-    binder.bind(first, "firstName");
-    binder.bind(last, "lastName");
-    binder.bind(email, "email");
-    binder.bind(role, "role");
+    binder.bind(code, "fase");
+    binder.bind(code, "code");
+    binder.bind(name, "name");
+    binder.bind(contractor, "contractor");
+    binder.bind(fromDate, "fromDate");
+    binder.bind(toDate, "toDate");
+    binder.bind(status, "status");
 
-    binder.forField(password)
-        .withValidator(pass-> pass.matches("^(|(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,})$"),
-            "need 6 or more chars, mixing digits, lowercase and uppercase letters"
-        )
-        .bind(
-            user-> password.getEmptyValue(), (
-              user, pass)->
-              {
-                if (!password.getEmptyValue().equals(pass))
-                {
-                  user.setPasswordHash(passwordEncoder.encode(pass));
-                }
-
-              }
-        );
-
-    return new BinderCrudEditor<User>(binder, form);
-  }// BinderCrudEditor
+    return new BinderCrudEditor<Contract>(binder, form);
+  }// createEditor
 
 }// DictView

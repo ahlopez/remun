@@ -34,12 +34,17 @@ public class UsersView extends AbstractRemunCrudView<User>
 
   @Autowired
   public UsersView(UserService service, CurrentUser currentUser, PasswordEncoder passwordEncoder)
-  { super(User.class, service, new Grid<>(), createForm(passwordEncoder), currentUser); }
+  { super(
+    User.class,
+    service,
+    new Grid<>(),
+    createForm(passwordEncoder),
+    currentUser); }
 
   @Override
   public void setupGrid(Grid<User> grid) {
     grid.addColumn(User::getEmail).setWidth("270px").setHeader("Email").setFlexGrow(5);
-    grid.addColumn(u-> u.getFirstName() + " " + u.getLastName()).setHeader("Nombre").setWidth("200px").setFlexGrow(5);
+    grid.addColumn(u-> u.getLastName() + " " + u.getFirstName()).setHeader("Nombre").setWidth("200px").setFlexGrow(5);
     grid.addColumn(User::getRole).setHeader("Rol").setWidth("150px");
   }
 

@@ -1,218 +1,179 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
    http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-   <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-   <parent>
-      <groupId>com.transmi.remun</groupId>
-      <artifactId>remun</artifactId>
-      <version>1.0-SNAPSHOT</version>
-   </parent>
+	<parent>
+		<groupId>com.transmi.remun</groupId>
+		<artifactId>remun</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
 
-   <artifactId>remuneracion</artifactId>
-   <packaging>war</packaging>
-   <name>Finalize</name>
-   <description>Deploy del sistema de remuneracion de agentes
-   </description>
+	<artifactId>remuneracion</artifactId>
+	<packaging>war</packaging>
+	<name>Finalize</name>
+	<description>Deploy del sistema de remuneracion de agentes
+	</description>
 
-   <properties>
-      <failOnMissingWebXml>false</failOnMissingWebXml>
-   </properties>
+	<properties>
+		<failOnMissingWebXml>false</failOnMissingWebXml>
+	</properties>
 
-   <dependencies>
+	<dependencies>
 
-      <dependency>
-         <groupId>com.transmi.remun</groupId>
-         <artifactId>service</artifactId>
-         <version>${project.version}</version>
-      </dependency>
+		<dependency>
+			<groupId>com.transmi.remun</groupId>
+			<artifactId>service</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
-      <dependency>
-         <groupId>com.transmi.remun</groupId>
-         <artifactId>back</artifactId>
-         <version>${project.version}</version>
-      </dependency>
+		<dependency>
+			<groupId>com.transmi.remun</groupId>
+			<artifactId>back</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
-      <dependency>
-         <groupId>com.transmi.remun</groupId>
-         <artifactId>front</artifactId>
-         <version>${project.version}</version>
-      </dependency>
+		<dependency>
+			<groupId>com.transmi.remun</groupId>
+			<artifactId>front</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
-   </dependencies>
+	</dependencies>
 
-   <build>
+	<build>
+		<!-- Default -->
+		<defaultGoal>spring-boot:run</defaultGoal>
 
-      <defaultGoal>spring-boot:run</defaultGoal>
-      <plugins>
+		<!-- List plugin versions and their global configuration in one place. -->
+		<pluginManagement>
+			<plugins>
+				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${maven.resources.plugin.version}</version>
+				</plugin>
 
-         <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <version>${spring.boot.version}</version>
-            <!-- Clean build and startup time for Vaadin apps sometimes may exceed
-               the default Spring Boot's 30sec timeout. -->
-            <configuration>
-               <mainClass>com.transmi.remun.Application</mainClass>
-               <wait>900</wait>
-               <maxAttempts>500</maxAttempts>
-            </configuration>
-            <executions>
-               <execution>
-                  <goals>
-                     <goal>repackage</goal>
-                  </goals>
-               </execution>
-            </executions>
-         </plugin>
+				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-war-plugin -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${maven.war.plugin.version}</version>
+				</plugin>
 
-         <!-- Take care of synchronizing java dependencies and imports in package.json
-            and main.js files. It also creates webpack.config.js if not exists yet. -->
-         <plugin>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-maven-plugin</artifactId>
-            <version>${vaadin.version}</version>
-            <executions>
-               <execution>
-                  <goals>
-                     <goal>prepare-frontend</goal>
-                  </goals>
-               </execution>
-            </executions>
-         </plugin>
+				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-clean-plugin -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>${maven.clean.plugin.version}</version>
+				</plugin>
 
-      </plugins>
-
-   </build>
+				<!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-maven-plugin -->
+				<plugin>
+					<groupId>com.vaadin</groupId>
+					<artifactId>vaadin-maven-plugin</artifactId>
+					<version>${vaadin.version}</version>
+				</plugin>
 
 
-   <profiles>
-      <profile>
-         <!-- Production mode is activated using -Pproduction -->
-         <id>production</id>
 
-         <properties>
-            <vaadin.productionMode>true</vaadin.productionMode>
-         </properties>
+				<!-- https://mvnrepository.com/artifact/com.github.eirslett/frontend-maven-plugin -->
+				<plugin>
+					<groupId>com.github.eirslett</groupId>
+					<artifactId>frontend-maven-plugin</artifactId>
+					<version>${frontend.maven.plugin.version}</version>
+					<configuration>
+						<nodeVersion>${node.version}</nodeVersion>
+						<yarnVersion>${yarn.version}</yarnVersion>
+					</configuration>
+				</plugin>
 
-         <dependencies>
-            <dependency>
-               <groupId>com.vaadin</groupId>
-               <artifactId>flow-server-production-mode</artifactId>
-            </dependency>
-         </dependencies>
+				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven.surefire.plugin.version}</version>
+				</plugin>
 
-         <build>
-            <plugins>
+			</plugins>
+		</pluginManagement>
 
-               <plugin>
-                  <groupId>org.springframework.boot</groupId>
-                  <artifactId>spring-boot-maven-plugin</artifactId>
-                  <version>${spring.boot.version}</version>
-                  <configuration>
-                     <jvmArguments>-Dvaadin.productionMode</jvmArguments>
-                  </configuration>
-               </plugin>
+		<plugins>
+            
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${spring.boot.version}</version>
+				<!-- Clean build and startup time for Vaadin apps sometimes may exceed 
+					the default Spring Boot's 30sec timeout. -->
+				<configuration>
+					<mainClass>com.transmi.remun.Application</mainClass>
+					<wait>900</wait>
+					<maxAttempts>500</maxAttempts>
+				</configuration>
+				<!--  
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+				-->
+			</plugin>
+			
 
-               <plugin>
-                  <groupId>com.vaadin</groupId>
-                  <artifactId>vaadin-maven-plugin</artifactId>
-                  <version>${vaadin.version}</version>
-                  <executions>
-                     <execution>
-                        <goals>
-                           <goal>build-frontend</goal>
-                        </goals>
-                        <phase>compile</phase>
-                     </execution>
-                  </executions>
-               </plugin>
+			<!-- Take care of synchronizing java dependencies and imports in package.json 
+				and main.js files. It also creates webpack.config.js if not exists yet. -->
+			<plugin>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-frontend</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
-            </plugins>
-         </build>
-      </profile>
+		</plugins>
 
-      <profile>
-         <id>integration-tests</id>
-         <build>
-            <plugins>
+	</build>
 
-               <plugin>
-                  <groupId>org.springframework.boot</groupId>
-                  <artifactId>spring-boot-maven-plugin</artifactId>
-                  <version>${spring.boot.version}</version>
 
-                  <executions>
-                     <execution>
-                        <id>start-spring-boot</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                           <goal>start</goal>
-                        </goals>
-                     </execution>
-                     <execution>
-                        <id>stop-spring-boot</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                           <goal>stop</goal>
-                        </goals>
-                     </execution>
-                  </executions>
-               </plugin>
-
-               <!-- Runs the integration tests (*IT) after the server is started -->
-               <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-failsafe-plugin</artifactId>
-                  <executions>
-                     <execution>
-                        <goals>
-                           <goal>integration-test</goal>
-                           <goal>verify</goal>
-                        </goals>
-                     </execution>
-                  </executions>
-                  <configuration>
-                     <trimStackTrace>false</trimStackTrace>
-                     <enableAssertions>true</enableAssertions>
-                     <systemPropertyVariables>
-                        <!-- Pass location of downloaded webdrivers to the tests -->
-                        <webdriver.chrome.driver>${webdriver.chrome.driver}
-                        </webdriver.chrome.driver>
-                     </systemPropertyVariables>
-                  </configuration>
-               </plugin>
-
-               <plugin>
-                  <groupId>com.lazerycode.selenium</groupId>
-                  <artifactId>driver-binary-downloader-maven-plugin</artifactId>
-                  <version>${downloader.maven.plugin.version}</version>
-                  <configuration>
-                     <onlyGetDriversForHostOperatingSystem>true
-                     </onlyGetDriversForHostOperatingSystem>
-                     <rootStandaloneServerDirectory>${project.basedir}/drivers/driver
-                     </rootStandaloneServerDirectory>
-                     <downloadedZipFileDirectory>${project.basedir}/drivers/driver_zips
-                     </downloadedZipFileDirectory>
-                     <customRepositoryMap>${project.basedir}/drivers.xml
-                     </customRepositoryMap>
-                  </configuration>
-                  <executions>
-                     <execution>
-                        <!-- use phase "none" to skip download step -->
-                        <phase>${drivers.downloader.phase}</phase>
-                        <goals>
-                           <goal>selenium</goal>
-                        </goals>
-                     </execution>
-                  </executions>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
-
-   </profiles>
-
+	<!-- <profiles> <profile> <!- - Production mode is activated using -Pproduction 
+		- -> <id>production</id> <properties> <vaadin.productionMode>true</vaadin.productionMode> 
+		</properties> <dependencies> <dependency> <groupId>com.vaadin</groupId> <artifactId>flow-server-production-mode</artifactId> 
+		</dependency> </dependencies> <build> <plugins> <plugin> <groupId>org.springframework.boot</groupId> 
+		<artifactId>spring-boot-maven-plugin</artifactId> <version>${spring.boot.version}</version> 
+		<configuration> <jvmArguments>-Dvaadin.productionMode</jvmArguments> </configuration> 
+		</plugin> <plugin> <groupId>com.vaadin</groupId> <artifactId>vaadin-maven-plugin</artifactId> 
+		<version>${vaadin.version}</version> <executions> <execution> <goals> <goal>build-frontend</goal> 
+		</goals> <phase>compile</phase> </execution> </executions> </plugin> </plugins> 
+		</build> </profile> <profile> <id>integration-tests</id> <build> <plugins> 
+		<plugin> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-maven-plugin</artifactId> 
+		<version>${spring.boot.version}</version> <executions> <execution> <id>start-spring-boot</id> 
+		<phase>pre-integration-test</phase> <goals> <goal>start</goal> </goals> </execution> 
+		<execution> <id>stop-spring-boot</id> <phase>post-integration-test</phase> 
+		<goals> <goal>stop</goal> </goals> </execution> </executions> </plugin> <!- 
+		- Runs the integration tests (*IT) after the server is started - -> <plugin> 
+		<groupId>org.apache.maven.plugins</groupId> <artifactId>maven-failsafe-plugin</artifactId> 
+		<executions> <execution> <goals> <goal>integration-test</goal> <goal>verify</goal> 
+		</goals> </execution> </executions> <configuration> <trimStackTrace>false</trimStackTrace> 
+		<enableAssertions>true</enableAssertions> <systemPropertyVariables> <!- - 
+		Pass location of downloaded webdrivers to the tests - -> <webdriver.chrome.driver>${webdriver.chrome.driver} 
+		</webdriver.chrome.driver> </systemPropertyVariables> </configuration> </plugin> 
+		<plugin> <groupId>com.lazerycode.selenium</groupId> <artifactId>driver-binary-downloader-maven-plugin</artifactId> 
+		<version>${downloader.maven.plugin.version}</version> <configuration> <onlyGetDriversForHostOperatingSystem>true 
+		</onlyGetDriversForHostOperatingSystem> <rootStandaloneServerDirectory>${project.basedir}/drivers/driver 
+		</rootStandaloneServerDirectory> <downloadedZipFileDirectory>${project.basedir}/drivers/driver_zips 
+		</downloadedZipFileDirectory> <customRepositoryMap>${project.basedir}/drivers.xml 
+		</customRepositoryMap> </configuration> <executions> <execution> < !- - use 
+		phase "none" to skip download step - -> <phase>${drivers.downloader.phase}</phase> 
+		<goals> <goal>selenium</goal> </goals> </execution> </executions> </plugin> 
+		</plugins> </build> </profile> </profiles> -->
 </project>
