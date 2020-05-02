@@ -7,17 +7,17 @@ import '@vaadin/vaadin-form-layout/src/vaadin-form-layout.js';
 import '@vaadin/vaadin-text-field/src/vaadin-text-field.js';
 import '../../components/buttons-bar.js';
 import '../../components/utils-mixin.js';
-import '../storefront/order-status-badge.js';
+import './contract-status-badge.js';
 import '../../../styles/shared-styles.js';
 import { html } from '@polymer/polymer/lib/utils/html-tag.js';
-class OrderDetails extends window.ScrollShadowMixin(PolymerElement) {
+class contractDetails extends window.ScrollShadowMixin(PolymerElement) {
   static get template() {
     return html`
     <style include="shared-styles">
       :host {
         display: flex;
         flex-direction: column;
-        box-sizing: border-box;
+        box-sizing: bcontract-box;
         flex: auto;
       }
 
@@ -80,8 +80,8 @@ class OrderDetails extends window.ScrollShadowMixin(PolymerElement) {
         text-align: center;
         vertical-align: middle;
         padding: var(--lumo-space-xs);
-        border: none;
-        border-bottom: 1px solid var(--lumo-contrast-10pct);
+        bcontract: none;
+        bcontract-bottom: 1px solid var(--lumo-contrast-10pct);
       }
 
       .products .td.product-name {
@@ -107,7 +107,7 @@ class OrderDetails extends window.ScrollShadowMixin(PolymerElement) {
         font-size: var(--lumo-font-size-s);
       }
 
-      order-status-badge[small] {
+      contract-status-badge[small] {
         margin-left: 0.5em;
       }
 
@@ -125,33 +125,34 @@ class OrderDetails extends window.ScrollShadowMixin(PolymerElement) {
 
     <div class="scrollable main-row" id="main">
       <div class="meta-row">
-        <order-status-badge status="[[item.state]]"></order-status-badge>
-        <span class="dim">Order #[[item.id]]</span>
+        <span class="dim">contrato #[contract.code]]</span>
+        <contract-status-badge status="[[contract.status]]"></contract-status-badge>
       </div>
 
       <vaadin-form-layout id="form1">
         <vaadin-form-item>
-          <label slot="label">Due</label>
-          <vaadin-form-layout id="form2">
+          <label slot="label">Desde</label>
+          <vaadin-form-layout id="form2d">
             <div class="date">
-              <h3>[[item.dueDate.day]]</h3>
-              <span class="dim">[[item.dueDate.weekday]]</span>
-            </div>
-            <div class="time">
-              <h3>[[item.dueTime]]</h3>
-              <span class="dim">[[item.pickupLocation.name]]</span>
+              <h3>[[contract.fromDate]]</h3>
+              <span class="dim">[[contract.fromDate]]</span>
             </div>
           </vaadin-form-layout>
         </vaadin-form-item>
 
-        <vaadin-form-item colspan="2">
-          <label slot="label">Customer</label>
-          <h3>[[item.customer.fullName]]</h3>
+        <vaadin-form-item>
+          <label slot="label">Hasta</label>
+          <vaadin-form-layout id="form2h">
+            <div class="date">
+              <h3>[[contract.toDate]]</h3>
+              <span class="dim">[[contract.toDate]]</span>
+            </div>
+          </vaadin-form-layout>
         </vaadin-form-item>
 
         <vaadin-form-item>
-          <label slot="label">Phone number</label>
-          <h3>[[item.customer.phoneNumber]]</h3>
+          <label slot="label">Contratista</label>
+          <h3>[[contract.contractor.fullName]]</h3>
         </vaadin-form-item>
       </vaadin-form-layout>
 
@@ -159,31 +160,33 @@ class OrderDetails extends window.ScrollShadowMixin(PolymerElement) {
         <div></div>
 
         <vaadin-form-layout id="form4" colspan="2">
-          <template is="dom-if" if="[[item.customer.details]]">
+          <template is="dom-if" if="[[parm.contractor.details]]">
             <vaadin-form-item label-position="top">
-              <label slot="label">Additional details</label>
-              <span>[[item.customer.details]]</span>
+              <label slot="label">Notas del Contratista</label>
+              <span>[[parm.contractor.details]]</span>
             </vaadin-form-item>
           </template>
 
           <vaadin-form-item>
-            <label slot="label">Products</label>
-            <div class="table products">
-              <template is="dom-repeat" items="[[item.items]]" as="item">
-                <dom-if if="[[item.product.name]]">
+            <label slot="label">Parámetros</label>
+            <div class="table parms">
+              <template is="dom-repeat" items="[[contract.parms]]" as="parms">
+                <dom-if if="[[parms.parm.name]]">
                   <template>
                     <div class="tr">
-                      <div class="td product-name">
-                        <div class="bold">[[item.product.name]]</div>
-                        <div class="secondary">[[item.comment]]</div>
+                      <div class="td parm-name">
+                        <div class="bold">[[parms.parm.name]]</div>
+                        <div class="secondary">[[parms.parm.type]]</div>
                       </div>
-                      <div class="td number">
-                        <span class="count">[[item.quantity]]</span>
+                      <div class="td parm-period">
+                        <div class="secondary">[[parms.parm.dateFrom]]</div>
+                        <div class="secondary">[[parms.parm.dateTo]]</div>
                       </div>
-                      <div class="td dim">Ã—</div>
-                      <div class="td money">
-                        [[item.product.price]]
+                      <div class="td value">
+                        <span class="count">[[parms.parm.value]]</span>
                       </div>
+                      <div class="td secondary">Notas</div>
+                      <div class="td secondary">[[parms.parm.comment]]</div>
                     </div>
                   </template>
                 </dom-if>
@@ -193,11 +196,11 @@ class OrderDetails extends window.ScrollShadowMixin(PolymerElement) {
 
           <vaadin-form-item id="history" label-position="top" hidden="[[review]]">
             <label slot="label">History</label>
-            <template is="dom-repeat" items="[[item.history]]" as="event">
+            <template is="dom-repeat" items="[[parm.history]]" as="event">
               <div class="history-line">
                 <span class="bold">[[event.createdBy.firstName]]</span>
                 <span class="secondary">[[event.timestamp]]</span>
-                <order-status-badge status="[[event.newState]]" small=""></order-status-badge>
+                <contract-status-badge status="[[event.newState]]" small=""></contract-status-badge>
               </div>
               <div class="comment">[[event.message]]</div>
             </template>
@@ -218,16 +221,15 @@ class OrderDetails extends window.ScrollShadowMixin(PolymerElement) {
 
 
     <buttons-bar id="footer" no-scroll\$="[[noScroll]]">
-      <vaadin-button slot="left" id="back" hidden="[[!review]]">Back</vaadin-button>
-      <vaadin-button slot="left" id="cancel" hidden="[[review]]">Cancel</vaadin-button>
-
-      <div slot="info" class="total">Total [[item.totalPrice]]</div>
+      <vaadin-button slot="left" id="back" hidden="[[!review]]">Retornar</vaadin-button>
+      <vaadin-button slot="left" id="cancel" hidden="[[review]]">Cancelar</vaadin-button>
 
       <vaadin-button slot="right" id="save" theme="primary success" hidden="[[!review]]">
         <iron-icon icon="vaadin:check" slot="suffix"></iron-icon>
-        Place order</vaadin-button>
+        Guardar contrato
+      </vaadin-button>
       <vaadin-button slot="right" id="edit" theme="primary" hidden="[[review]]">
-        Edit order
+        Editar contrato
         <iron-icon icon="vaadin:edit" slot="suffix"></iron-icon>
       </vaadin-button>
     </buttons-bar>
@@ -235,7 +237,7 @@ class OrderDetails extends window.ScrollShadowMixin(PolymerElement) {
   }
 
   static get is() {
-    return 'order-details';
+    return 'contract-details';
   }
 
   static get properties() {
@@ -272,4 +274,4 @@ class OrderDetails extends window.ScrollShadowMixin(PolymerElement) {
   }
 }
 
-window.customElements.define(OrderDetails.is, OrderDetails);
+window.customElements.define(contractDetails.is, contractDetails);

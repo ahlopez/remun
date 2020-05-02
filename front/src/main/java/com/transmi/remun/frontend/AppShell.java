@@ -8,7 +8,13 @@ import com.vaadin.flow.server.PWA;
 
 /* Genera el index.html */
 @Viewport(VIEWPORT)
-@PWA(name = "Inicio de Remuneracion", shortName = "Remuneracion", startPath = "login", backgroundColor = "#227aef", themeColor = "#227aef", offlinePath = "offline-page.html", offlineResources = { "images/offline-login-banner.jpg" })
+@PWA(name = "Inicio de Remuneracion",
+     shortName = "Remuneracion",
+     startPath = "login",
+     backgroundColor = "#227aef",
+     themeColor = "#227aef",
+     offlinePath = "offline-page.html",
+     offlineResources = { "images/offline-login-banner.jpg" })
 public class AppShell implements AppShellConfigurator
 {
 }

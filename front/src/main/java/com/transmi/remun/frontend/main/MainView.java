@@ -39,8 +39,17 @@ import com.vaadin.flow.server.VaadinServlet;
  * <p>
  * A new instance of this class is created for every new user and every
  * browser tab/window.
+ *
+ * @Viewport(VIEWPORT)
+ *                     @PWA(
+ *                     name = "Inicio de Remuneracion",
+ *                     shortName = "Remuneracion",
+ *                     startPath = "login",
+ *                     backgroundColor = "#227aef",
+ *                     themeColor = "#227aef",
+ *                     offlinePath = "offline-page.html",
+ *                     offlineResources = { "images/offline-login-banner.jpg" })
  */
-
 public class MainView extends AppLayout
 {
 

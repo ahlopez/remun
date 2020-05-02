@@ -53,9 +53,9 @@ class ContractEditor extends window.ScrollShadowMixin(PolymerElement) {
 
         <vaadin-form-layout id="form2">
           <vaadin-text-field id="name" label="Nombre" colspan="2">
-          <vaadin-text-field id="contractor" label="contratista" colspan="2">
-          <vaadin-date-picker label="fromDate" id="fromDate"></vaadin-date-picker>
-          <vaadin-date-picker label="toDate" id="toDate"></vaadin-date-picker>
+          <vaadin-text-field id="contractor" label="Contratista" colspan="2">
+          <vaadin-date-picker id="fromDate" label="Desde"></vaadin-date-picker>
+          <vaadin-date-picker id="toDate" label="Hasta"></vaadin-date-picker>
         </vaadin-form-layout>
 
         <vaadin-form-layout id="form3" colspan="3">

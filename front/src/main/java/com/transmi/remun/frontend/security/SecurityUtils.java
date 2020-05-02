@@ -71,7 +71,9 @@ public final class SecurityUtils
 
     // Always allow access to public views
     if (publicView)
-    { return true; }
+    {
+      return true;
+    }
 
     Authentication userAuthentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -113,7 +115,7 @@ public final class SecurityUtils
   public static boolean isFrameworkInternalRequest(HttpServletRequest request) {
     final String parameterValue = request.getParameter(ApplicationConstants.REQUEST_TYPE_PARAMETER);
     return parameterValue != null
-        && Stream.of(RequestType.values()).anyMatch(r -> r.getIdentifier().equals(parameterValue));
+        && Stream.of(RequestType.values()).anyMatch(r-> r.getIdentifier().equals(parameterValue));
   }// isFrameworkInternalRequest
 
 }// SecurityUtils
