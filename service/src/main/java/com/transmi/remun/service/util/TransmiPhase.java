@@ -1,15 +1,12 @@
 package com.transmi.remun.service.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public enum TransmiPhase
 {
 
-  I("Fase 1"),
-  II("Fase 2"),
-  III("Fase 3"),
-  IV("Fase 4"),
+  I("F1"),
+  II("F2"),
+  III("F3"),
+  IV("F4"),
   G("TODAS");
 
   String name;
@@ -22,20 +19,26 @@ public enum TransmiPhase
   public static TransmiPhase fromValue(String name) {
     for (TransmiPhase p : TransmiPhase.values())
     {
-      if (p.name.equals(name))
+      if (p.name.equalsIgnoreCase(name))
         return p;
     }
     throw new IllegalArgumentException(name);
   }// fromValue
 
+  /**
+   * Return an array with the name of the enum elements
+   * 
+   * @return String[] Names of the enum elements
+   */
   public static String[] getAllPhases() {
-    List<String> phases = new ArrayList<>();
-    for (TransmiPhase p : TransmiPhase.values())
+    TransmiPhase[] fv     = TransmiPhase.values();
+    String[]       phases = new String[fv.length];
+    for (int i = 0; i < fv.length; i++ )
     {
-      phases.add(p.name);
+      phases[i] = (fv[i].toString());
     }
+    return phases;
 
-    return (String[]) phases.toArray();
   }// getAllPhases
 
   /**

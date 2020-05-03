@@ -148,9 +148,9 @@ public class Contract extends AbstractEntity implements Comparable<Contract>
     history.add(item);
   }// addHistoryItem
 
-  public ContractStatus getState() { return status; }
+  public ContractStatus getStatus() { return status; }
 
-  public void setState(ContractStatus status) { this.status = status; }
+  public void setStatus(ContractStatus status) { this.status = status; }
 
   public void changeState(User user, ContractStatus status) {
     boolean createHistory = this.status != status && this.status != null && status != null;

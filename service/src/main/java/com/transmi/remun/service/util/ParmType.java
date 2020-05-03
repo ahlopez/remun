@@ -1,8 +1,5 @@
 package com.transmi.remun.service.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public enum ParmType
 {
 
@@ -24,14 +21,20 @@ public enum ParmType
     throw new IllegalArgumentException(name);
   }// fromValue
 
+  /**
+   * Return an array with the name of the enum elements
+   * 
+   * @return String[] Names of the enum elements
+   */
   public static String[] getAllTypes() {
-    List<String> types = new ArrayList<>();
-    for (ParmType p : ParmType.values())
+    ParmType[] tv    = ParmType.values();
+    String[]   types = new String[tv.length];
+    for (int i = 0; i < tv.length; i++ )
     {
-      types.add(p.name);
+      types[i] = (tv[i].toString());
     }
+    return types;
 
-    return (String[]) types.toArray();
   }// getAllTypes
 
   @Override

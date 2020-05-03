@@ -44,9 +44,9 @@ class ContractEditor extends window.ScrollShadowMixin(PolymerElement) {
       <h2 id="title">Nuevo Contrato</h2>
 
       <div class="meta-row" id="metaContainer">
-        <vaadin-combo-box class="status" id="status"></vaadin-combo-box>
         <vaadin-combo-box class="fase" id="fase"></vaadin-combo-box>
         <span class="dim">Contrato <span id="code"></span></span>
+        <vaadin-combo-box class="status" id="status"></vaadin-combo-box>
       </div>
 
       <vaadin-form-layout id="form1">
@@ -111,8 +111,11 @@ class ContractEditor extends window.ScrollShadowMixin(PolymerElement) {
   }
 
   _onStatusChange() {
-    const status = this.status ? this.status.toLowerCase() : this.status;
+    const status = this.status ? this.status.toUpperCase() : this.status;
     this.$.status.$.input.setAttribute('status', status);
+
+    const phase = this.phase ? this.phase.toUpperCase() : this.phase;
+    this.$.phase.$.input.setAttribute('fase', phase);
   }
 }//ContractEditor
 

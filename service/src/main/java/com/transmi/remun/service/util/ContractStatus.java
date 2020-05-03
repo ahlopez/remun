@@ -1,7 +1,5 @@
 package com.transmi.remun.service.util;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public enum ContractStatus
@@ -16,14 +14,20 @@ public enum ContractStatus
    */
   public String getDisplayName() { return Utility.capitalize(name().toUpperCase(Locale.ENGLISH)); }
 
+  /**
+   * Return an array with the name of the enum elements
+   * 
+   * @return String[] Names of the enum elements
+   */
   public static String[] getAllStatus() {
-    List<String> status = new ArrayList<>();
-    for (ContractStatus s : ContractStatus.values())
+    ContractStatus[] cv     = ContractStatus.values();
+    String[]         status = new String[cv.length];
+    for (int i = 0; i < cv.length; i++ )
     {
-      status.add(s.toString());
+      status[i] = (cv[i].toString());
     }
+    return status;
 
-    return (String[]) status.toArray();
   }// getAllStatus
 
 }// ContractState

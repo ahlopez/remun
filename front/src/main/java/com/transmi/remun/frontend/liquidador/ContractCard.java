@@ -50,7 +50,7 @@ public class ContractCard
 
   public String getToDate() { return FULL_DATE_FORMATTER.format(contract.getToDate()); }
 
-  public String getState() { return stateConverter.encode(contract.getState()); }
+  public String getStatus() { return stateConverter.encode(contract.getStatus()); }
 
   public List<Parm> getParms() { return contract.getParms(); }
 

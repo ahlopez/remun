@@ -117,7 +117,7 @@ public class ContractEditor extends PolymerTemplate<ContractEditor.Model>
     binder.forField(status)
         .withValidator(new BeanValidator(Contract.class, "status"))
         .bind(
-            Contract::getState, (
+            Contract::getStatus, (
               o, s)->
               {
                 o.changeState(currentUser, s);
@@ -170,9 +170,9 @@ public class ContractEditor extends PolymerTemplate<ContractEditor.Model>
     title.setVisible(isNew);
     metaContainer.setVisible(!isNew);
 
-    if (contract.getState() != null)
+    if (contract.getStatus() != null)
     {
-      getModel().setStatus(contract.getState().name());
+      getModel().setStatus(contract.getStatus().name());
     }
 
     review.setEnabled(false);

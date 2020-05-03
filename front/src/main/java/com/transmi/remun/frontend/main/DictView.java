@@ -13,6 +13,7 @@ import com.transmi.remun.frontend.security.CurrentUser;
 import com.transmi.remun.service.util.ContractStatus;
 import com.transmi.remun.service.util.FrontConst;
 import com.transmi.remun.service.util.Role;
+import com.transmi.remun.service.util.TransmiPhase;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.crud.BinderCrudEditor;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -44,13 +45,13 @@ public class DictView extends AbstractRemunCrudView<Contract>
 
   @Override
   public void setupGrid(Grid<Contract> grid) {
-    grid.addColumn(Contract::getFase).setWidth("30px").setHeader("Fase").setFlexGrow(5);
-    grid.addColumn(Contract::getCode).setWidth("150px").setHeader("Código").setFlexGrow(5);
-    grid.addColumn(Contract::getName).setWidth("270px").setHeader("Nombre").setFlexGrow(5);
+    grid.addColumn(Contract::getFase).setWidth("85px").setHeader("Fase").setFlexGrow(5);
+    grid.addColumn(Contract::getCode).setWidth("120px").setHeader("Código").setFlexGrow(5);
+    grid.addColumn(Contract::getName).setWidth("200px").setHeader("Nombre").setFlexGrow(5);
     grid.addColumn(c-> c.getContractor().getFullName()).setWidth("200px").setHeader("Contratista").setFlexGrow(5);
-    grid.addColumn(Contract::getFromDate).setWidth("100px").setHeader("Desde").setFlexGrow(5);
-    grid.addColumn(Contract::getToDate).setWidth("100px").setHeader("Hasta").setFlexGrow(5);
-    grid.addColumn(Contract::isVigente).setHeader("Vigente").setWidth("200px").setFlexGrow(5);
+    grid.addColumn(Contract::getFromDate).setWidth("115px").setHeader("Desde").setFlexGrow(5);
+    grid.addColumn(Contract::getToDate).setWidth("115px").setHeader("Hasta").setFlexGrow(5);
+    grid.addColumn(Contract::isVigente).setHeader("Vigente").setWidth("85px").setFlexGrow(5);
   }
 
   @Override
@@ -60,14 +61,18 @@ public class DictView extends AbstractRemunCrudView<Contract>
 
     Notification.show("Saludos desde Diccionario!!");
 
-    TextField        fase       = new TextField("Fase");
-    TextField        code       = new TextField("Código");
-    TextField        name       = new TextField("Nombre");
-    TextField        contractor = new TextField("Contratista");
-    DatePicker       fromDate   = new DatePicker("Desde");
-    DatePicker       toDate     = new DatePicker("Hasta");
-    ComboBox<String> status     = new ComboBox<>();
-    status.getElement().setAttribute("colspan", "2");
+    ComboBox<String> fase = new ComboBox<>();
+    fase.getElement().setAttribute("colspan", "1");
+    fase.setLabel("Fase");
+
+    TextField  code       = new TextField("Código");
+    TextField  name       = new TextField("Nombre");
+    TextField  contractor = new TextField("Contratista");
+    DatePicker fromDate   = new DatePicker("Desde");
+    DatePicker toDate     = new DatePicker("Hasta");
+
+    ComboBox<String> status = new ComboBox<>();
+    status.getElement().setAttribute("colspan", "1");
     status.setLabel("Estado");
 
     FormLayout form = new FormLayout(fase, code, name, contractor, fromDate, toDate, status);
@@ -82,10 +87,18 @@ public class DictView extends AbstractRemunCrudView<Contract>
     );
     status.setDataProvider(statusProvider);
 
-    binder.bind(code, "fase");
+    ListDataProvider<String> phaseProvider = DataProvider.ofItems(TransmiPhase.getAllPhases());
+    fase.setItemLabelGenerator(
+        f-> f != null ?
+            f :
+            ""
+    );
+    fase.setDataProvider(phaseProvider);
+
+    binder.bind(fase, "fase");
     binder.bind(code, "code");
     binder.bind(name, "name");
-    binder.bind(contractor, "contractor");
+    // binder.bind(contractor, "contractor");
     binder.bind(fromDate, "fromDate");
     binder.bind(toDate, "toDate");
     binder.bind(status, "status");

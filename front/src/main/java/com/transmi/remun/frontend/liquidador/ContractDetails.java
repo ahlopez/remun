@@ -101,12 +101,13 @@ public class ContractDetails extends PolymerTemplate<ContractDetails.Model>
   {
 
     @Include({
-        "code",
         "fase",
+        "code",
+        "status",
+        "name",
         "contractor.fullName",
         "fromDate",
         "toDate",
-        "status",
         "contract.details",
         "parms.code",
         "parms.value",

@@ -168,7 +168,7 @@ public class DataGenerator implements HasLogger
     contract.setFase(getRandom(PHASE));
     contract.setFromDate(fromDate);
     contract.setToDate(toDate);
-    contract.setState(ContractStatus.VIGENTE);
+    contract.setStatus(ContractStatus.VIGENTE);
     contract.setParms(createParms(contract, random.nextInt(10)));
     contract.setHistory(createContractHistory(contract, barista, baker));
 
