@@ -19,6 +19,9 @@ public interface ContractRepository extends JpaRepository<Contract, Long>
   @EntityGraph(value = Contract.ENTITY_GRAPH_BRIEF, type = EntityGraphType.LOAD)
   Page<Contract> findByFase(String searchQuery, Pageable pageable);
 
+  @EntityGraph(value = Contract.ENTITY_GRAPH_BRIEF, type = EntityGraphType.LOAD)
+  Page<Contract> findByCode(String searchQuery, Pageable pageable);
+
   @Override
   @EntityGraph(value = Contract.ENTITY_GRAPH_BRIEF, type = EntityGraphType.LOAD)
   List<Contract> findAll();
@@ -32,6 +35,8 @@ public interface ContractRepository extends JpaRepository<Contract, Long>
   Optional<Contract> findById(Long id);
 
   long countByFase(TransmiPhase fase);
+
+  long countByCode(String code);
 
   long countByNameContainingIgnoreCase(String searchQuery);
 

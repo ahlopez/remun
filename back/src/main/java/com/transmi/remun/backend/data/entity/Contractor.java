@@ -1,13 +1,23 @@
 package com.transmi.remun.backend.data.entity;
 
+import java.time.LocalDate;
+import java.util.Random;
+
 import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
+@Table(name = "CONTRATISTA", indexes = { @Index(columnList = "code") })
 public class Contractor extends AbstractEntity implements Comparable<Contractor>
 {
+
+  @Transient
+  private static final Random random = new Random(LocalDate.now().toEpochDay());
 
   @NotBlank
   @Size(max = 255)
@@ -25,7 +35,12 @@ public class Contractor extends AbstractEntity implements Comparable<Contractor>
 
   // --------- Constructors ------------
   public Contractor()
-  {}
+  {
+    setCode(new Integer(random.nextInt(9999999)).toString());
+    setFullName("--Desconocido--");
+    setPhoneNumber("333-999-9999");
+    setDetails("");
+  }// Contractor
 
   // ----------- getters & setters
   public String getFullName() { return fullName; }

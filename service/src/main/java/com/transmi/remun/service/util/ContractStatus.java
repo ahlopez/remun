@@ -19,15 +19,16 @@ public enum ContractStatus
    * 
    * @return String[] Names of the enum elements
    */
-  public static String[] getAllStatus() {
-    ContractStatus[] cv     = ContractStatus.values();
-    String[]         status = new String[cv.length];
-    for (int i = 0; i < cv.length; i++ )
-    {
-      status[i] = (cv[i].toString());
-    }
-    return status;
-
-  }// getAllStatus
+  public static ContractStatus[] getAllStatus() { return values(); }
+  /*
+   * ContractStatus[] cv = ContractStatus.values();
+   * String[] status = new String[cv.length];
+   * for (int i = 0; i < cv.length; i++ )
+   * {
+   * status[i] = (cv[i].toString());
+   * }
+   * return status;
+   * }// getAllStatus
+   */
 
 }// ContractState

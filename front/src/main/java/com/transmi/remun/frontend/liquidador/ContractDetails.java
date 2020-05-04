@@ -1,6 +1,7 @@
 package com.transmi.remun.frontend.liquidador;
 
 import com.transmi.remun.backend.data.entity.Contract;
+import com.transmi.remun.backend.service.ContractorService;
 import com.transmi.remun.frontend.components.converters.ContractStateConverter;
 import com.transmi.remun.frontend.components.converters.LocalDateConverter;
 import com.transmi.remun.frontend.components.converters.LocalDateTimeConverter;
@@ -76,7 +77,11 @@ public class ContractDetails extends PolymerTemplate<ContractDetails.Model>
 
       }
     );
-    save.addClickListener(e-> fireEvent(new SaveEvent(this, false)));
+    save.addClickListener(e->
+      {
+        contract.setContractor(ContractorService.getGlobalContractor());
+        fireEvent(new SaveEvent(this, false));
+      });
     cancel.addClickListener(e-> fireEvent(new CancelEvent(this, false)));
     edit.addClickListener(e-> fireEvent(new EditEvent(this)));
   }
@@ -105,7 +110,7 @@ public class ContractDetails extends PolymerTemplate<ContractDetails.Model>
         "code",
         "status",
         "name",
-        "contractor.fullName",
+        // "contractor",
         "fromDate",
         "toDate",
         "contract.details",

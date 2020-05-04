@@ -83,7 +83,7 @@ public class CrudEntityPresenter<E extends AbstractEntity> implements HasLogger
   }
 
   private void consumeError(Exception e, String message, boolean isPersistent) {
-    getLogger().debug(message, e);
+    getLogger().info(message, e);
     view.showNotification(message, isPersistent);
   }
 

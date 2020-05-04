@@ -25,6 +25,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.BatchSize;
 
+import com.transmi.remun.backend.service.ContractorService;
 import com.transmi.remun.service.util.ContractStatus;
 import com.transmi.remun.service.util.TransmiPhase;
 
@@ -41,7 +42,7 @@ import com.transmi.remun.service.util.TransmiPhase;
             @NamedAttributeNode("history")
         }) })
 @Entity
-@Table(name = "CONTRATO", indexes = { @Index(columnList = "fase") })
+@Table(name = "CONTRATO", indexes = { @Index(columnList = "fase"), @Index(columnList = "code") })
 public class Contract extends AbstractEntity implements Comparable<Contract>
 {
 
@@ -54,7 +55,7 @@ public class Contract extends AbstractEntity implements Comparable<Contract>
   @NotNull(message = "{remun.name.required}")
   private String name;
 
-  @NotNull(message = "{remun.contractor.required}")
+  // @NotNull(message = "{remun.contractor.required}")
   @ManyToOne(cascade = CascadeType.ALL)
   private Contractor contractor;
 
@@ -89,8 +90,9 @@ public class Contract extends AbstractEntity implements Comparable<Contract>
 
   public Contract()
   {
-    this.status = ContractStatus.CERRADO;
-    this.parms  = new ArrayList<>();
+    this.contractor = ContractorService.getGlobalContractor();
+    this.status     = ContractStatus.CERRADO;
+    this.parms      = new ArrayList<>();
   }// ContractEntity
 
   public Contract(Contractor contractor, User user)

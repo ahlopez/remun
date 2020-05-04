@@ -92,6 +92,18 @@ public class DataGenerator implements HasLogger
       "Cubides",
       "Terreros" };
 
+  private static final String[] CONTRACTOR_NAME = new String[] {
+      "Express del Futuro",
+      "ETIB",
+      "Consorcio Express",
+      "Contratista-4",
+      "Contratista-5",
+      "Contratista-6",
+      "Contratista-7",
+      "Contratista-8",
+      "Contratista-9",
+      "Contratista-10" };
+
   private final Random random = new Random(1L);
   private int nUser = 0;
   private int nHist = 0;
@@ -149,7 +161,7 @@ public class DataGenerator implements HasLogger
     // Cree los demas contratos
     for (int i = 1; i < 21; i++ )
     {
-      contractor = createContractor("CT" + i);
+      contractor = createContractor("C" + i);
       contract   = createContract(contractor, "C" + i, barista, baker);
       contractRepo.save(contract);
     }
@@ -232,10 +244,9 @@ public class DataGenerator implements HasLogger
 
   private Contractor createContractor(String code) {
     Contractor contractor = new Contractor();
-    String     first      = getRandom(FIRST_NAME);
-    String     last       = getRandom(LAST_NAME);
+    String     name       = getRandom(CONTRACTOR_NAME);
     contractor.setCode(code);
-    contractor.setFullName(first + " " + last);
+    contractor.setFullName(name);
     contractor.setPhoneNumber(getRandomPhone());
     if (random.nextInt(3) == 0)
       contractor.setDetails("Contratista VIP");

@@ -47,7 +47,7 @@ public class ContractService implements FilterableCrudService<Contract>
 
   private Contractor createUnknownContractor() {
     Contractor unknown = new Contractor();
-    unknown.setFullName("--Desconocido--");
+    // unknown.setFullName("--Desconocido--");
     return unknown;
   }// createUnknownContractor
 

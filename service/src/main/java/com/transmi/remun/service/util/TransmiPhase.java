@@ -30,16 +30,17 @@ public enum TransmiPhase
    * 
    * @return String[] Names of the enum elements
    */
-  public static String[] getAllPhases() {
-    TransmiPhase[] fv     = TransmiPhase.values();
-    String[]       phases = new String[fv.length];
-    for (int i = 0; i < fv.length; i++ )
-    {
-      phases[i] = (fv[i].toString());
-    }
-    return phases;
-
-  }// getAllPhases
+  public static TransmiPhase[] getAllPhases() { return values(); }
+  /*
+   * TransmiPhase[] fv = TransmiPhase.values();
+   * String[] phases = new String[fv.length];
+   * for (int i = 0; i < fv.length; i++ )
+   * {
+   * phases[i] = (fv[i].toString());
+   * }
+   * return phases;
+   * }// getAllPhases
+   */
 
   /**
    * Aplana la estructura del enum en un String

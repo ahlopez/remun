@@ -13,6 +13,7 @@ import com.transmi.remun.frontend.crud.EntityPresenter;
 import com.transmi.remun.frontend.liquidador.ContractsGridDataProvider.ContractFilter;
 import com.transmi.remun.frontend.security.CurrentUser;
 import com.transmi.remun.service.util.FrontConst;
+import com.transmi.remun.service.util.HasLogger;
 //
 import com.vaadin.flow.component.Focusable;
 import com.vaadin.flow.component.HasValue;
@@ -21,7 +22,7 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 
 @SpringComponent
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class ContractPresenter
+public class ContractPresenter implements HasLogger
 {
 
   private ContractCardHeaderGenerator headersGenerator;
@@ -49,6 +50,7 @@ public class ContractPresenter
     headersGenerator     = new ContractCardHeaderGenerator();
     headersGenerator.resetHeaderChain(false);
     dataProvider.setPageObserver(p-> headersGenerator.contractsRead(p.getContent()));
+    getLogger().info(">>> Salgo de constructor ContractPresenter");
   }
 
   void init(LiquidadorFrontView view) {
@@ -88,6 +90,7 @@ public class ContractPresenter
   void back() { view.setDialogElementsVisibility(true); }
 
   void review() {
+    getLogger().info(">>> iniciando review");
     // Using collect instead of findFirst to assure all streams are
     // traversed, and every validation updates its view
     List<HasValue<?, ?>> fields = view.validate().collect(Collectors.toList());
@@ -104,9 +107,10 @@ public class ContractPresenter
       ((Focusable<?>) fields.get(0)).focus();
     }
 
-  }//review
+  }// review
 
   void save() {
+    getLogger().info(">>> iniciando contractPresenter.save()");
     entityPresenter.save(e->
       {
         if (entityPresenter.isNew())
@@ -121,8 +125,9 @@ public class ContractPresenter
 
         close();
       });
+    getLogger().info(">>> saliendo contractPresenter.save()");
 
-  }//save
+  }// save
 
   void addComment(String comment) {
     if (entityPresenter.executeUpdate(e-> contractService.addComment(currentUser.getUser(), e, comment)))
@@ -131,7 +136,7 @@ public class ContractPresenter
       open(entityPresenter.getEntity(), false);
     }
 
-  }//addComment
+  }// addComment
 
   private void open(Contract contract, boolean edit) {
     view.setDialogElementsVisibility(edit);
@@ -140,15 +145,15 @@ public class ContractPresenter
     if (edit)
       view.getOpenedContractEditor().read(contract, entityPresenter.isNew());
     else
-       view.getOpenedContractDetails().display(contract, false);
+      view.getOpenedContractDetails().display(contract, false);
 
-  }//open
+  }// open
 
   private void close() {
     view.getOpenedContractEditor().close();
     view.setOpened(false);
     view.navigateToMainView();
     entityPresenter.close();
-  }//close
+  }// close
 
 }// ContractPresenter

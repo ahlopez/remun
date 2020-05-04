@@ -2,6 +2,8 @@ package com.transmi.remun.frontend.main;
 
 import static com.transmi.remun.service.util.FrontConst.PAGE_DICT;
 
+import java.util.logging.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +14,7 @@ import com.transmi.remun.frontend.crud.AbstractRemunCrudView;
 import com.transmi.remun.frontend.security.CurrentUser;
 import com.transmi.remun.service.util.ContractStatus;
 import com.transmi.remun.service.util.FrontConst;
+import com.transmi.remun.service.util.HasLogger;
 import com.transmi.remun.service.util.Role;
 import com.transmi.remun.service.util.TransmiPhase;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -30,8 +33,10 @@ import com.vaadin.flow.router.Route;
 @Route(value = PAGE_DICT, layout = MainView.class)
 @PageTitle(FrontConst.TITLE_DICT)
 @Secured(Role.ADMIN)
-public class DictView extends AbstractRemunCrudView<Contract>
+public class DictView extends AbstractRemunCrudView<Contract> implements HasLogger
 {
+
+  private static Logger log;
 
   @Autowired
   public DictView(ContractService service, CurrentUser currentUser, PasswordEncoder passwordEncoder)
@@ -60,10 +65,12 @@ public class DictView extends AbstractRemunCrudView<Contract>
   private static BinderCrudEditor<Contract> createEditor(PasswordEncoder passwordEncoder) {
 
     Notification.show("Saludos desde Diccionario!!");
-
-    ComboBox<String> fase = new ComboBox<>();
+    log = Logger.getGlobal();
+    log.info(">>> Entrando a createEditor");
+    ComboBox<TransmiPhase> fase = new ComboBox<>();
     fase.getElement().setAttribute("colspan", "1");
     fase.setLabel("Fase");
+    log.info(">>> Cree combo fase");
 
     TextField  code       = new TextField("Código");
     TextField  name       = new TextField("Nombre");
@@ -71,38 +78,44 @@ public class DictView extends AbstractRemunCrudView<Contract>
     DatePicker fromDate   = new DatePicker("Desde");
     DatePicker toDate     = new DatePicker("Hasta");
 
-    ComboBox<String> status = new ComboBox<>();
+    ComboBox<ContractStatus> status = new ComboBox<>();
     status.getElement().setAttribute("colspan", "1");
     status.setLabel("Estado");
+    log.info(">>> Cree combo status");
 
     FormLayout form = new FormLayout(fase, code, name, contractor, fromDate, toDate, status);
 
     BeanValidationBinder<Contract> binder = new BeanValidationBinder<>(Contract.class);
 
-    ListDataProvider<String> statusProvider = DataProvider.ofItems(ContractStatus.getAllStatus());
+    ListDataProvider<ContractStatus> statusProvider = DataProvider.ofItems(ContractStatus.getAllStatus());
     status.setItemLabelGenerator(
         s-> s != null ?
-            s :
+            s.toString() :
             ""
     );
+    log.info(">>> Cree status provider");
     status.setDataProvider(statusProvider);
-
-    ListDataProvider<String> phaseProvider = DataProvider.ofItems(TransmiPhase.getAllPhases());
+    log.info(">>> status provider assigned");
+    ListDataProvider<TransmiPhase> phaseProvider = DataProvider.ofItems(TransmiPhase.getAllPhases());
     fase.setItemLabelGenerator(
         f-> f != null ?
-            f :
+            f.toString() :
             ""
     );
+    log.info(">>> Cree phase provider");
     fase.setDataProvider(phaseProvider);
+    log.info(">>> fase provider assigned");
 
     binder.bind(fase, "fase");
     binder.bind(code, "code");
     binder.bind(name, "name");
-    // binder.bind(contractor, "contractor");
+
+    // binder.bind(contractor, "contractor.fullName");
     binder.bind(fromDate, "fromDate");
     binder.bind(toDate, "toDate");
     binder.bind(status, "status");
 
+    log.info(">>> Cree contract binder crud editor");
     return new BinderCrudEditor<Contract>(binder, form);
   }// createEditor
 
