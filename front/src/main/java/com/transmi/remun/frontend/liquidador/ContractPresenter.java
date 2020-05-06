@@ -51,7 +51,7 @@ public class ContractPresenter implements HasLogger
     headersGenerator.resetHeaderChain(false);
     dataProvider.setPageObserver(p-> headersGenerator.contractsRead(p.getContent()));
     getLogger().info(">>> Salgo de constructor ContractPresenter");
-  }
+  }// ContractPresenter
 
   void init(LiquidadorFrontView view) {
     this.entityPresenter.setView(view);
@@ -65,14 +65,14 @@ public class ContractPresenter implements HasLogger
     view.getOpenedContractDetails().addBackListener(e-> back());
     view.getOpenedContractDetails().addEditListener(e-> edit());
     view.getOpenedContractDetails().addCommentListener(e-> addComment(e.getMessage()));
-  }
+  }// init
 
   ContractCardHeader getHeaderByContractCode(String code) { return headersGenerator.get(code); }
 
   public void filterChanged(String filter, boolean showPrevious) {
     headersGenerator.resetHeaderChain(showPrevious);
     dataProvider.setFilter(new ContractFilter(filter, showPrevious));
-  }
+  }// filterChanged
 
   void onNavigation(Long id, boolean edit) { entityPresenter.loadEntity(id, e-> open(e, edit)); }
 
@@ -83,14 +83,14 @@ public class ContractPresenter implements HasLogger
   void closeSilently() {
     entityPresenter.close();
     view.setOpened(false);
-  }
+  }// closeSilently
 
   void edit() { UI.getCurrent().navigate(FrontConst.PAGE_LIQUIDADOR_FRONT_EDIT + "/" + entityPresenter.getEntity().getId()); }
 
   void back() { view.setDialogElementsVisibility(true); }
 
   void review() {
-    getLogger().info(">>> iniciando review");
+    getLogger().info(">>> iniciando contractPresenter.review");
     // Using collect instead of findFirst to assure all streams are
     // traversed, and every validation updates its view
     List<HasValue<?, ?>> fields = view.validate().collect(Collectors.toList());
@@ -106,6 +106,7 @@ public class ContractPresenter implements HasLogger
     {
       ((Focusable<?>) fields.get(0)).focus();
     }
+    getLogger().info(">>> saliendo de contractPresenter.review");
 
   }// review
 
@@ -150,10 +151,13 @@ public class ContractPresenter implements HasLogger
   }// open
 
   private void close() {
+    getLogger().info(">>> entrando contractPresenter.close()");
     view.getOpenedContractEditor().close();
     view.setOpened(false);
     view.navigateToMainView();
     entityPresenter.close();
+    getLogger().info(">>> saliendo contractPresenter.close()");
+
   }// close
 
 }// ContractPresenter

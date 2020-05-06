@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.transmi.remun.backend.data.entity.Contract;
 import com.transmi.remun.service.util.ContractStatus;
@@ -15,6 +17,14 @@ import com.transmi.remun.service.util.TransmiPhase;
 
 public interface ContractRepository extends JpaRepository<Contract, Long>
 {
+
+  @Query("select c from Contract c " +
+      "where lower(c.fase) like lower(concat('%', :searchTerm, '%'))" +
+      " or   lower(c.code) like lower(concat('%', :searchTerm, '%'))" +
+      " or   lower(c.name) like lower(concat('%', :searchTerm, '%'))")
+
+  @EntityGraph(value = Contract.ENTITY_GRAPH_BRIEF, type = EntityGraphType.LOAD)
+  Page<Contract> findAll(@Param("searchTerm") String searchTerm, Pageable pageable);
 
   @EntityGraph(value = Contract.ENTITY_GRAPH_BRIEF, type = EntityGraphType.LOAD)
   Page<Contract> findByFase(String searchQuery, Pageable pageable);
@@ -33,6 +43,12 @@ public interface ContractRepository extends JpaRepository<Contract, Long>
   @Override
   @EntityGraph(value = Contract.ENTITY_GRAPH_FULL, type = EntityGraphType.LOAD)
   Optional<Contract> findById(Long id);
+
+  @Query("select count(c) from Contract c " +
+      "where lower(c.fase) like lower(concat('%', :searchTerm, '%')) " +
+      "or    lower(c.code) like lower(concat('%', :searchTerm, '%')) " +
+      "or    lower(c.name) like lower(concat('%', :searchTerm, '%')) ")
+  long countAll(@Param("searchTerm") String searchTerm);
 
   long countByFase(TransmiPhase fase);
 

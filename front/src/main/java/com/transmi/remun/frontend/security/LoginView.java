@@ -22,16 +22,16 @@ public class LoginView extends LoginOverlay
   {
     LoginI18n i18n = LoginI18n.createDefault();
     i18n.setHeader(new LoginI18n.Header());
-    i18n.getHeader().setTitle("Vaadin Bakery");
+    i18n.getHeader().setTitle("Remuneración de Agentes");
     i18n.getHeader().setDescription(
         "admin@vaadin.com + admin\n" + "barista@vaadin.com + barista"
     );
     i18n.setAdditionalInformation(null);
     i18n.setForm(new LoginI18n.Form());
     i18n.getForm().setSubmit("Sign in");
-    i18n.getForm().setTitle("Sign in");
-    i18n.getForm().setUsername("Email");
-    i18n.getForm().setPassword("Password");
+    i18n.getForm().setTitle("Ingresar");
+    i18n.getForm().setUsername("Correo electrónico");
+    i18n.getForm().setPassword("Clave");
     setI18n(i18n);
     setForgotPasswordButtonVisible(false);
     setAction("login");

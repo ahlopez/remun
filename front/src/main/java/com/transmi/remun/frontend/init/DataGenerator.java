@@ -33,7 +33,7 @@ public class DataGenerator implements HasLogger
 
   private static final ParmType[] TYPE = new ParmType[] { ParmType.NUMBER, ParmType.STRING, ParmType.DATE };
 
-  private static final TransmiPhase[] PHASE = new TransmiPhase[] { TransmiPhase.I, TransmiPhase.II, TransmiPhase.III, TransmiPhase.IV, TransmiPhase.G, TransmiPhase.G };
+  private static final TransmiPhase[] PHASE = new TransmiPhase[] { TransmiPhase.F1, TransmiPhase.F2, TransmiPhase.F3, TransmiPhase.F4, TransmiPhase.TODAS };
 
   private static final String[] FIRST_NAME = new String[] {
       "Olga",

@@ -53,11 +53,20 @@ public class DictView extends AbstractRemunCrudView<Contract> implements HasLogg
     grid.addColumn(Contract::getFase).setWidth("85px").setHeader("Fase").setFlexGrow(5);
     grid.addColumn(Contract::getCode).setWidth("120px").setHeader("Código").setFlexGrow(5);
     grid.addColumn(Contract::getName).setWidth("200px").setHeader("Nombre").setFlexGrow(5);
-    grid.addColumn(c-> c.getContractor().getFullName()).setWidth("200px").setHeader("Contratista").setFlexGrow(5);
+    grid.addColumn(
+        c-> c.getContractor() == null ?
+            "-" :
+            c.getContractor().getFullName()
+    ).setWidth("200px").setHeader("Contratista").setFlexGrow(5);
     grid.addColumn(Contract::getFromDate).setWidth("115px").setHeader("Desde").setFlexGrow(5);
     grid.addColumn(Contract::getToDate).setWidth("115px").setHeader("Hasta").setFlexGrow(5);
-    grid.addColumn(Contract::isVigente).setHeader("Vigente").setWidth("85px").setFlexGrow(5);
-  }
+    grid.addColumn(
+        c-> c.isVigente() ?
+            "SI" :
+            "NO"
+    ).setHeader("Vigente").setWidth("85px").setFlexGrow(5);
+    grid.getColumns().forEach(col-> col.setAutoWidth(true));
+  }// setupGrid
 
   @Override
   protected String getBasePage() { return PAGE_DICT; }
@@ -110,12 +119,13 @@ public class DictView extends AbstractRemunCrudView<Contract> implements HasLogg
     binder.bind(code, "code");
     binder.bind(name, "name");
 
-    // binder.bind(contractor, "contractor.fullName");
+    binder.bind(contractor, "contractor");
     binder.bind(fromDate, "fromDate");
     binder.bind(toDate, "toDate");
     binder.bind(status, "status");
 
     log.info(">>> Cree contract binder crud editor");
+
     return new BinderCrudEditor<Contract>(binder, form);
   }// createEditor
 

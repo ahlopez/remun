@@ -1,7 +1,7 @@
 package com.transmi.remun.frontend.liquidador;
 
 import com.transmi.remun.backend.data.entity.Contract;
-import com.transmi.remun.backend.service.ContractorService;
+import com.transmi.remun.frontend.components.converters.BoolConverter;
 import com.transmi.remun.frontend.components.converters.ContractStateConverter;
 import com.transmi.remun.frontend.components.converters.LocalDateConverter;
 import com.transmi.remun.frontend.components.converters.LocalDateTimeConverter;
@@ -10,6 +10,7 @@ import com.transmi.remun.frontend.liquidador.events.CancelEvent;
 import com.transmi.remun.frontend.liquidador.events.CommentEvent;
 import com.transmi.remun.frontend.liquidador.events.EditEvent;
 import com.transmi.remun.frontend.liquidador.events.SaveEvent;
+import com.transmi.remun.service.util.HasLogger;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Tag;
@@ -30,7 +31,7 @@ import com.vaadin.flow.templatemodel.TemplateModel;
  */
 @Tag("contract-details")
 @JsModule("./src/views/contractedit/contract-details.js")
-public class ContractDetails extends PolymerTemplate<ContractDetails.Model>
+public class ContractDetails extends PolymerTemplate<ContractDetails.Model> implements HasLogger
 {
 
   private Contract contract;
@@ -63,6 +64,7 @@ public class ContractDetails extends PolymerTemplate<ContractDetails.Model>
 
   public ContractDetails()
   {
+    getLogger().info(">>> Ingreso a ContractDetails constructor");
     sendComment.addClickListener(e->
       {
         String message = commentField.getValue();
@@ -79,14 +81,18 @@ public class ContractDetails extends PolymerTemplate<ContractDetails.Model>
     );
     save.addClickListener(e->
       {
-        contract.setContractor(ContractorService.getGlobalContractor());
         fireEvent(new SaveEvent(this, false));
-      });
+      }
+    );
     cancel.addClickListener(e-> fireEvent(new CancelEvent(this, false)));
     edit.addClickListener(e-> fireEvent(new EditEvent(this)));
-  }
+    getLogger().info(">>> Salgo de ContractDetails constructor");
+
+  }// ContractDetails
 
   public void display(Contract contract, boolean review) {
+    getLogger().info(">>> Ingreso a ContractDetails.display, contract=" + contract.getName());
+
     getModel().setReview(review);
     this.contract = contract;
     getModel().setItem(contract);
@@ -96,7 +102,9 @@ public class ContractDetails extends PolymerTemplate<ContractDetails.Model>
     }
 
     this.isDirty = review;
-  }
+    getLogger().info(">>> Ingreso a ContractDetails.display, contract=" + contract.getName());
+
+  }// display
 
   public boolean isDirty() { return isDirty; }
 
@@ -110,10 +118,10 @@ public class ContractDetails extends PolymerTemplate<ContractDetails.Model>
         "code",
         "status",
         "name",
-        // "contractor",
+        "contractor.fullName",
         "fromDate",
         "toDate",
-        "contract.details",
+        "vigente",
         "parms.code",
         "parms.value",
         "history.message",
@@ -121,7 +129,8 @@ public class ContractDetails extends PolymerTemplate<ContractDetails.Model>
         "history.timestamp",
         "history.newState"
     })
-    // @Encode(value = LongToStringConverter.class, path = "code")
+
+    @Encode(value = BoolConverter.class, path = "vigente")
     @Encode(value = PhaseConverter.class, path = "fase")
     @Encode(value = LocalDateConverter.class, path = "fromDate")
     @Encode(value = LocalDateConverter.class, path = "toDate")
@@ -132,7 +141,7 @@ public class ContractDetails extends PolymerTemplate<ContractDetails.Model>
 
     void setReview(boolean review);
 
-  }
+  }// Model
 
   public Registration addSaveListenter(ComponentEventListener<SaveEvent> listener) { return addListener(SaveEvent.class, listener); }
 

@@ -176,7 +176,7 @@ public class ContractEditor extends PolymerTemplate<ContractEditor.Model>
     }
 
     review.setEnabled(false);
-  }
+  }// read
 
   public void close() {}
 

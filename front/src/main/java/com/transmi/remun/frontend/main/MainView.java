@@ -40,6 +40,8 @@ import com.vaadin.flow.server.VaadinServlet;
  * A new instance of this class is created for every new user and every
  * browser tab/window.
  *
+ * OJO: En Vaadin 14.1.0 la definición de Viewport y @PWA se hace en esta clase
+ * 
  * @Viewport(VIEWPORT)
  *                     @PWA(
  *                     name = "Inicio de Remuneracion",

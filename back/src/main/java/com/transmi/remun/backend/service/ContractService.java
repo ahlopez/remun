@@ -16,9 +16,10 @@ import com.transmi.remun.backend.data.entity.Contract;
 import com.transmi.remun.backend.data.entity.Contractor;
 import com.transmi.remun.backend.data.entity.User;
 import com.transmi.remun.backend.data.repositories.ContractRepository;
+import com.transmi.remun.service.util.HasLogger;
 
 @Service
-public class ContractService implements FilterableCrudService<Contract>
+public class ContractService implements FilterableCrudService<Contract>, HasLogger
 {
 
   private final ContractRepository contractRepository;
@@ -64,20 +65,44 @@ public class ContractService implements FilterableCrudService<Contract>
   public JpaRepository<Contract, Long> getRepository() { return contractRepository; }
 
   @Override
-  public Page<Contract> findAnyMatching(Optional<String> optionalFilter, Pageable pageable) {
+  public Page<Contract> findAnyMatching(Optional<String> filter, Pageable pageable) {
 
-    return optionalFilter.isPresent() && !optionalFilter.get().isEmpty() ?
-        contractRepository.findByFase(optionalFilter.get(), pageable) :
+    getLogger().info(
+        ">>> En ContractService.findAnyMatching(" +
+            (!filter.isPresent() || filter.get().isEmpty() ?
+                "" :
+                filter.get())
+            + ")"
+    );
+
+    return filter.isPresent() && !filter.get().isEmpty() ?
+        contractRepository.findAll(filter.get(), pageable) :
         contractRepository.findAll(pageable);
 
   }// findAnyMatching
 
-  @Override
-  public long countAnyMatching(Optional<String> filter) {
+  public long countAll(Optional<String> filter) {
     if (filter.isPresent())
     {
       String repositoryFilter = "%" + filter.get() + "%";
-      return contractRepository.countByNameContainingIgnoreCase(repositoryFilter);
+      return contractRepository.countAll(repositoryFilter);
+    }
+    return count();
+  }// countAll
+
+  @Override
+  public long countAnyMatching(Optional<String> filter) {
+    getLogger().info(
+        ">>> En ContractService.countAnyMatching(" +
+            (!filter.isPresent() || filter.get().isEmpty() ?
+                "" :
+                filter.get())
+            + ")"
+    );
+    if (filter.isPresent())
+    {
+      String repositoryFilter = "%" + filter.get() + "%";
+      return contractRepository.countAll(repositoryFilter);
     }
 
     return count();

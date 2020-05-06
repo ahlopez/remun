@@ -57,7 +57,7 @@ public class ContractorService implements FilterableCrudService<Contractor>
   public Page<Contractor> findAnyMatching(Optional<String> optionalFilter, Pageable pageable) {
 
     return optionalFilter.isPresent() && !optionalFilter.get().isEmpty() ?
-        contractorRepository.findByFullNameContainingIgnoreCase(optionalFilter.get(), pageable) :
+        contractorRepository.findAll(optionalFilter.get(), pageable) :
         contractorRepository.findAll(pageable);
 
   }// findAnyMatching

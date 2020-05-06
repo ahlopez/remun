@@ -44,7 +44,12 @@ public class ContractCard
 
   public String getName() { return contract.getName(); }
 
-  public String getContractor() { return contract.getContractor().getFullName(); }
+  public String getContractor() {
+    if (contract == null || contract.getContractor() == null)
+      return " ";
+
+    return contract.getContractor().getFullName();
+  }
 
   public String getFromDate() { return FULL_DATE_FORMATTER.format(contract.getFromDate()); }
 

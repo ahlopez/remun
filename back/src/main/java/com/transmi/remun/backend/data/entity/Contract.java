@@ -50,6 +50,7 @@ public class Contract extends AbstractEntity implements Comparable<Contract>
   public static final String ENTITY_GRAPH_FULL = "Contract.full";
 
   @NotNull(message = "{remun.phase.required}")
+  @Enumerated(EnumType.STRING)
   private TransmiPhase fase;
 
   @NotNull(message = "{remun.name.required}")
@@ -121,7 +122,17 @@ public class Contract extends AbstractEntity implements Comparable<Contract>
 
   public void setToDate(LocalDate toDate) { this.toDate = toDate; }
 
-  public boolean isVigente() { return vigente; }
+  public boolean isVigente() {
+    LocalDate date = LocalDate.now();
+    vigente = status.equals(ContractStatus.VIGENTE) &&
+        (date.equals(fromDate) || date.equals(toDate) || (date.isAfter(fromDate) && date.isBefore(toDate)));
+    return vigente;
+  }// isVigente
+
+  public boolean isVigente(LocalDate date) {
+    setVigente(date);
+    return vigente;
+  }
 
   public void setVigente(LocalDate date) { this.vigente = (status.equals(ContractStatus.VIGENTE) && date != null &&
       (date.equals(fromDate) || date.equals(toDate) || (date.isAfter(fromDate) && date.isBefore(toDate)))); }
@@ -168,7 +179,7 @@ public class Contract extends AbstractEntity implements Comparable<Contract>
   public String toString() {
     StringBuffer prms = new StringBuffer();
     parms.forEach(p-> prms.append(p.getCode()).append(" "));
-    return "Contract{" + super.toString() + " fromDate[" + fromDate + "] toDate[" + toDate + "]" +
+    return "Contract{" + super.toString() + " fase[" + fase.toString() + "] fromDate[" + fromDate + "] toDate[" + toDate + "]" +
         " contractor[" + contractor.getFullName() + "]" +
         " parms{" + prms.toString() + "} status[" + status + "]" +
         " history size{" + history.size() + "} items}";
