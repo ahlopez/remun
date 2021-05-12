@@ -29,7 +29,7 @@
       <vaadin.spring.version>13.0.2</vaadin.spring.version>
       <spring.boot.version>2.2.6.RELEASE</spring.boot.version>
       <spring.web.version>5.2.4.RELEASE</spring.web.version>
-      <spring.security.version>5.2.2.RELEASE</spring.security.version>
+      <spring.security.version>5.2.10.RELEASE</spring.security.version>
       <spring.data.provider.version>2.1.0</spring.data.provider.version>
       <h2.version>1.4.200</h2.version>
       <jaxb.version>2.3.1</jaxb.version>
