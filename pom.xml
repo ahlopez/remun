@@ -27,7 +27,7 @@
       <vaadin.version>15.0.3</vaadin.version>
       <flow.version>3.0.6</flow.version>
       <vaadin.spring.version>13.0.2</vaadin.spring.version>
-      <spring.boot.version>2.2.6.RELEASE</spring.boot.version>
+      <spring.boot.version>2.5.12</spring.boot.version>
       <spring.web.version>5.2.4.RELEASE</spring.web.version>
       <spring.security.version>5.2.2.RELEASE</spring.security.version>
       <spring.data.provider.version>2.1.0</spring.data.provider.version>
