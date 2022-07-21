@@ -59,7 +59,7 @@
       "typescript": "3.8.3",
       "webpack-merge": "4.2.2",
       "webpack-dev-server": "3.10.3",
-      "terser": "4.6.7",
+      "terser": "4.8.1",
       "progress-webpack-plugin": "0.0.24"
     },
     "hash": "0a16960c5dc36bf2779e380439bb91048ec79abd73be312810a88057c8dda5ef"
@@ -119,7 +119,7 @@
     "progress-webpack-plugin": "0.0.24",
     "raw-loader": "4.0.0",
     "script-ext-html-webpack-plugin": "2.1.4",
-    "terser": "4.6.7",
+    "terser": "4.8.1",
     "typescript": "3.8.3",
     "webpack": "4.42.0",
     "webpack-babel-multi-target-plugin": "2.1.0",
